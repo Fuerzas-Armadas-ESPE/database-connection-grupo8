@@ -1,90 +1,70 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/beGrFWyM)
-# Blog Personal Nest
+# Proyecto de Ejemplo con Nest.js
 
-Este es un proyecto de blog personal desarrollado con NestJS.
-
-## Sugerencia
-
-¡Antes de clonar o realizar un fork de este repositorio, te animamos a que intentes crear el proyecto desde cero siguiendo el tutorial!
-
-## Tutorial
-
-Si deseas aprender a implementar autenticación en un blog personal con NestJS, te invitamos a seguir el tutorial en el siguiente enlace: 
-
-- [**Tutorial:** Implementación de un Blog Personal con Nest.js](/Tutoriales/tutorial.md)
-
-- [**Tutorial:** Implementación de Autenticación en un Blog Personal con Nest.js](/Tutoriales/tutorial-auth.md)
-
-<!-- - [**Tutorial:** Implementación de Docker y Docker Compose en un Blog Personal con Nest.js](/Tutoriales/tutorial-docker.md) -->
-
-- [**Tutorial:** Implementación de MongoDB en un Blog Personal con Nest.js](/Tutoriales/tutorial-connection-database.md)
-
-- [**Tutorial:** Implementación de Peticiones Get, Post, Put, Delete](/Tutoriales/tutorial-peticiones.md)
-
-<!-- - [**Tutorial:** Implementación de Comentarios en un Blog Personal con Nest.js](/Tutoriales/tutorial-comentarios.md)
-
-- [**Tutorial:** Mejora de la Validación de Datos en un Blog Personal con Nest.js](/Tutoriales/tutorial-validacion.md)
-
-- [**Tutorial:** Implementación de Pruebas Unitarias en un Blog Personal con Nest.js](/Tutoriales/tutorial-pruebas.md) -->
-
-
-
-## Descripción
-
-Este proyecto es un blog personal desarrollado utilizando el framework NestJS, que permite a los usuarios crear, leer, actualizar y eliminar publicaciones. Utiliza una arquitectura modular y está diseñado siguiendo los principios de RESTful API.
-
-## Funcionalidades
-
-- Crear una nueva publicación
-- Leer una publicación existente
-- Actualizar una publicación existente
-- Eliminar una publicación existente
-
-## Tecnologías utilizadas
-
-- NestJS
-- TypeScript
-- UUID
-- Docker
-- Docker Compose
+Este es un proyecto de ejemplo creado con Nest.js que incluye la funcionalidad básica de autenticación de usuarios, publicación de posts y comentarios asociados a dichos posts.
 
 ## Instalación
 
-- Clona este repositorio: git clone https://github.com/statick88/blogpersonalnest
-- Instala las dependencias: npm install
+Antes de comenzar, asegúrate de tener [Node.js](https://nodejs.org/) y [npm](https://www.npmjs.com/) instalados en tu máquina.
 
-## Uso
+```bash
+npm install -g @nestjs/cli
+git clone https://github.com/tu_usuario/nestjs-example.git
+cd nestjs-example
+npm install
+```
 
-- Inicia el servidor de desarrollo utilizando docker desktop: `docker compose up -d`
-- Realiza las peticiones HTTP utilizando tu herramienta favorita como Thunder Client.
+## Iniciar la Aplicación
 
-## Endpoints
+Para ejecutar la aplicación en modo de desarrollo, utiliza el siguiente comando:
 
-- GET /posts: Obtener todas las publicaciones
-- GET /posts/:id: Obtener una publicación por su ID
-- POST /posts: Crear una nueva publicación
-- PUT /posts/:id: Actualizar una publicación existente
-- DELETE /posts/:id: Eliminar una publicación existente
+```bash
+npm run start:dev
+```
+
+Esto iniciará el servidor en http://localhost:3000.
 
 ## Autenticación
 
-Para proteger las rutas y los recursos, se ha implementado la autenticación mediante tokens JWT (JSON Web Tokens). 
+Abre Postman y crea una solicitud POST a http://localhost:3000/auth/login con el siguiente cuerpo en formato JSON:
 
-Debes obtener un token de acceso enviando una solicitud POST a `/auth/login` con las credenciales de usuario. Luego, incluye este token en la cabecera Authorization de tus solicitudes HTTP utilizando el esquema Bearer.
+```bash
+{
+  "username": "tu_usuario",
+  "password": "tu_contraseña"
+}
+```
 
-## Mejoras Futuras
+Esta solicitud generará un token que necesitarás para autenticar otras solicitudes.
 
-- [✅] Implementación de autenticación y autorización.
-- [✅] Implementación de Docker y Docker Compose.
-- [❌] Implementación de MongoDB para almacenar las publicaciones.
-- [❌] Implementación de comentarios en las publicaciones.
-- [❌] Mejorar la validación de datos en las solicitudes POST y PUT.
+## Obtener y Listar Posts
 
+Crea una solicitud GET a http://localhost:3000/posts para obtener todos los posts. Asegúrate de incluir el token de autenticación en los encabezados.
 
-## Contribuyendo
+## Comentarios en Posts
 
-¡Las contribuciones son bienvenidas! Si tienes alguna sugerencia, mejora o corrección, por favor crea un pull request.
+Crea una solicitud POST a http://localhost:3000/posts/2/comments (puedes cambiar el número 2 según el post al que quieras agregar un comentario) con el siguiente cuerpo en formato JSON:
 
-## Licencia
+```bash
+{
+  "author": "Grupo8",
+  "content": "Este es mi comentario."
+}
+```
 
-[MIT](LICENSE)
+Esto agregará un comentario al post especificado.
+
+Para ver los comentarios asociados a un post, realiza una solicitud GET a http://localhost:3000/posts/2/comments (nuevamente, ajusta el número según el post deseado).
+
+# Estructura del Proyecto
+
+En el directorio `src`, se ha agregado una nueva carpeta denominada `comments` que incluye los siguientes archivos:
+
+- `comment.model.ts`: Este archivo define la estructura del modelo de comentarios.
+- `comments.controller.ts`: Aquí se encuentra el controlador que gestiona las solicitudes relacionadas con los comentarios.
+- `comments.module.ts`: Este módulo encapsula la lógica asociada con los comentarios.
+- `comments.service.ts`: En este archivo se encuentra el servicio que lleva a cabo las operaciones relacionadas con los comentarios.
+- `comments.service.spec.ts`: Contiene pruebas unitarias destinadas a evaluar el servicio de comentarios.
+
+Adicionalmente, se realizaron pequeñas modificaciones en `app.module.ts` para integrar la nueva funcionalidad.
+
+Espero que esta estructura sea clara y que encuentres útil y fácil de entender este proyecto de ejemplo. ¡Disfruta explorando Nest.js!
